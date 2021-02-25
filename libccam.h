@@ -60,3 +60,4 @@ void peck(point *p, int len, double depth, double pecks);	//drill all points in 
 void advanced_peck(point *p, int len, double depth, double dwell, double first_peck_depth, double pecks_depth, double pecks_reduction, double min_peck);	//drill all points in array by pecking n times
 
 void profile(point *p, int len, bool relative); //goes to all points in array with cutting feedrate
+void face(double x, double y, double pitch, double angle);	//face the stock at current height with angle relative to positive y
