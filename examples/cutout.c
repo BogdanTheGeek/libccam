@@ -18,5 +18,6 @@ int main(){
 	profile(relative_square, 4, true);	
 
 	//end of program
+	stop();
 	return 0;
 }

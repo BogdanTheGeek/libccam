@@ -38,6 +38,19 @@ void set_rapid(double f){	//set feedrate for travel
 	printf("G0 F%0.*f;\n", decimal_places, f);
 }
 
+void pause(){
+	printf("M0;\n");
+}
+
+void stop(){
+	printf("M30;\n");
+
+}
+
+void wait(int millis){
+	printf("G4 P%d;\n", decimal_places, millis);
+}
+
 void make_relative(point *p, int len){	//convert absolute shape into relative shape
 	
 	for(int i=len; i>0; i--){

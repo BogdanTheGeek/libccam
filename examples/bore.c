@@ -18,5 +18,6 @@ int main(){
 	bore(4, 1, 3, true);	//bore a 4mm whole, 1mm spiral pitch, 3mm deep with a floor
 
 	//end of program
+	stop();
 	return 0;
 }

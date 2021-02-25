@@ -44,6 +44,10 @@ enum{
 void set_feed(double f);	//set feedrate for cutting
 void set_rapid(double f);	//set feedrate for travel
 
+void pause();	//pause the program until manual resume
+void stop();	//end the program
+void wait(int millis);	//wait for specified millis
+
 void make_relative(point *p, int len);	//convert absolute shape into relative shape
 void make_absolute(point *p, int len);	//convert relative shape into absolute shape
 

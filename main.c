@@ -6,5 +6,6 @@ int main(){
 	set_rapid(1000);
 
 	//end of program
+	stop();
 	return 0;
 }
