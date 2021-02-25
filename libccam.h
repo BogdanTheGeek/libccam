@@ -35,6 +35,11 @@ typedef struct point{
 	double z;
 }point;
 
+enum{
+	ABS = 0, //absolute coordinates
+	REL = 1	//relative coordinates
+};
+
 //prototypes
 void set_feed(double f);	//set feedrate for cutting
 void set_rapid(double f);	//set feedrate for travel
@@ -47,6 +52,7 @@ void travel(double x, double y, double z, bool relative);	//move with rapid feed
 
 void bore(double diameter, double pitch, double depth, bool floor);	//bore a hole of the specified dimensions
 void drill(point *p, int len, double depth);	//drill all points in array
-void peck(point *p, int len, double depth, double pecks, double ratio);	//drill all points in array by pecking n times, the depth before a retract is controlled by ratio
+void peck(point *p, int len, double depth, double pecks);	//drill all points in array by pecking n times
+void advanced_peck(point *p, int len, double depth, double dwell, double first_peck_depth, double pecks_depth, double pecks_reduction, double min_peck);	//drill all points in array by pecking n times
 
 void profile(point *p, int len, bool relative); //goes to all points in array with cutting feedrate

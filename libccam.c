@@ -62,19 +62,19 @@ void make_absolute(point *p, int len){	//convert relative shape into absolute sh
 }
 
 void move(double x, double y, double z, bool relative){	//move with cutting feedrate
-	if(relative)printf("G91");
-	else printf("G90");
+	if(relative)printf("G91 ");
+	else printf("G90 ");
 	printf("G1 X%0.*f Y%0.*f Z%0.*f;\n", decimal_places, x, decimal_places, y, decimal_places, z);
 }
 
 void travel(double x, double y, double z, bool relative){	//move with rapid feedrate
-	if(relative)printf("G91");
-	else printf("G90");
+	if(relative)printf("G91 ");
+	else printf("G90 ");
 	printf("G0 X%0.*f Y%0.*f Z%0.*f;\n", decimal_places, x, decimal_places, y, decimal_places, z);
 }
 
 void bore(double diameter, double pitch, double depth, bool floor){	//bore a hole of the specified dimensions
-	travel(-diameter/2,0,0, true);
+	travel(-diameter/2,0,0, REL);
 
 	double remaining = depth;
 	while(remaining-pitch > 0){
@@ -83,18 +83,29 @@ void bore(double diameter, double pitch, double depth, bool floor){	//bore a hol
 	}
 	printf("G3 Z%0.*f I%0.*f;\n", decimal_places, -remaining, decimal_places, diameter/2);
 	if(floor)printf("G3 I%0.*f;\n", decimal_places, diameter/2);
-	travel(0,0,depth, true);
+	travel(0,0,depth, REL);
 }
 
 void drill(point *p, int len, double depth){	//drill all points in array
 	for(int i=0; i<len; i++){
-		travel(p[i].x, p[i].y, p[i].z, false);
-		move(0, 0, -depth, true);
-		travel(p[i].x, p[i].y, p[i].z, false);
+		travel(p[i].x, p[i].y, p[i].z, ABS);
+		move(0, 0, -depth, REL);
+		travel(p[i].x, p[i].y, p[i].z, ABS);
 	}
 }
 
-void peck(point *p, int len, double depth, double pecks, double ratio){	//drill all points in array by pecking n times, the depth before a retract is controlled by ratio
+void peck(point *p, int len, double depth, double pecks){	//drill all points in array by pecking n times
+	for(int i=0; i<len; i++){
+		travel(p[i].x, p[i].y, p[i].z, ABS);
+		printf("G83 Z%0.*f R%0.*f Q%0.*f;\n", decimal_places, p[i].z - depth, decimal_places, p[i].z, decimal_places, depth/pecks);
+	}
+}
+
+void advanced_peck(point *p, int len, double depth, double dwell, double first_peck_depth, double pecks_depth, double pecks_reduction, double min_peck){	//drill all points in array by pecking n times
+	for(int i=0; i<len; i++){
+		travel(p[i].x, p[i].y, p[i].z, ABS);
+		printf("G83 Z%0.*f R%0.*f P%0.*f I%0.*f Q%0.*f J%0.*f K%0.*f;\n", decimal_places, p[i].z - depth, decimal_places, p[i].z, decimal_places, dwell, decimal_places, first_peck_depth, decimal_places, pecks_depth, decimal_places, pecks_reduction, decimal_places, min_peck);
+	}
 
 }
 
