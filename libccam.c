@@ -98,6 +98,7 @@ void peck(point *p, int len, double depth, double pecks){	//drill all points in 
 	for(int i=0; i<len; i++){
 		travel(p[i].x, p[i].y, p[i].z, ABS);
 		printf("G83 Z%0.*f R%0.*f Q%0.*f;\n", decimal_places, p[i].z - depth, decimal_places, p[i].z, decimal_places, depth/pecks);
+		printf("G80;\n");
 	}
 }
 
@@ -105,6 +106,7 @@ void advanced_peck(point *p, int len, double depth, double dwell, double first_p
 	for(int i=0; i<len; i++){
 		travel(p[i].x, p[i].y, p[i].z, ABS);
 		printf("G83 Z%0.*f R%0.*f P%0.*f I%0.*f Q%0.*f J%0.*f K%0.*f;\n", decimal_places, p[i].z - depth, decimal_places, p[i].z, decimal_places, dwell, decimal_places, first_peck_depth, decimal_places, pecks_depth, decimal_places, pecks_reduction, decimal_places, min_peck);
+		printf("G80;\n");
 	}
 
 }
