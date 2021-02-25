@@ -38,6 +38,29 @@ void set_rapid(double f){	//set feedrate for travel
 	printf("G0 F%0.*f;\n", decimal_places, f);
 }
 
+void make_relative(point *p, int len){	//convert absolute shape into relative shape
+	
+	for(int i=len; i>0; i--){
+		p[i].x = p[i].x - p[i-1].x;
+		p[i].y = p[i].y - p[i-1].y;
+		p[i].z = p[i].z - p[i-1].z;
+	}
+}
+
+void make_absolute(point *p, int len){	//convert relative shape into absolute shape
+
+	point absolute_p = {0,0,0};
+	for(int i=0; i<len; i++){
+		p[i].x = absolute_p.x + p[i].x;
+		p[i].y = absolute_p.y + p[i].y;
+		p[i].z = absolute_p.z + p[i].z;
+		
+		absolute_p.x = p[i].x;
+        absolute_p.y = p[i].y;
+        absolute_p.z = p[i].z;
+	}
+}
+
 void move(double x, double y, double z, bool relative){	//move with cutting feedrate
 	if(relative)printf("G91");
 	else printf("G90");

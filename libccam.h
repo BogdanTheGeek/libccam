@@ -39,6 +39,9 @@ typedef struct point{
 void set_feed(double f);	//set feedrate for cutting
 void set_rapid(double f);	//set feedrate for travel
 
+void make_relative(point *p, int len);	//convert absolute shape into relative shape
+void make_absolute(point *p, int len);	//convert relative shape into absolute shape
+
 void move(double x, double y, double z, bool relative);	//move with cutting feedrate
 void travel(double x, double y, double z, bool relative);	//move with rapid feedrate
 
