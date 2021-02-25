@@ -48,7 +48,7 @@ void stop(){
 }
 
 void wait(int millis){
-	printf("G4 P%d;\n", decimal_places, millis);
+	printf("G4 P%d;\n", millis);
 }
 
 void make_relative(point *p, int len){	//convert absolute shape into relative shape
@@ -132,14 +132,14 @@ void profile(point *p, int len, bool relative){ //goes to all points in array wi
 
 void face(double x, double y, double pitch, double angle){	//face the stock at current height with angle relative to positive y
 	if(angle == 90){
-		for(int i=0; i<=y/pitch, i++){
+		for(int i=0; i<=y/pitch; i++){
 			if(i%2 == 0)move(x, 0, 0, REL);
 			else move(-x, 0, 0, REL);
 			move(0, pitch, 0, REL);
 		}
 	}
 	else if(angle == 0){
-		for(int i=0; i<=x/pitch, i++){
+		for(int i=0; i<=x/pitch; i++){
 			if(i%2 == 0) move(0, y, 0, REL);
 			else move(0, -y, 0, REL);
 			move(pitch, 0, 0, REL);
