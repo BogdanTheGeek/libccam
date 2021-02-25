@@ -22,16 +22,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+// the funniest way to implement bool in C
+typedef enum
+{
+    false = ( 1 == 0 ),
+    true = ( ! false )
+} bool;
 
 typedef struct point{
 	double x;
 	double y;
 	double z;
-};
+}point;
 
-void move(double x, double y, double z);	//incremental move with cutting feedrate
-void travel(double x, double y, double z);	//absolute move with travel feedrate
+//prototypes
+void set_feed(double f);	//set feedrate for cutting
+void set_rapid(double f);	//set feedrate for travel
 
-void bore(double x, double y, double z, double diameter, double pitch, double depth);	//bore a hole of the specified dimensions
+void move(double x, double y, double z, bool relative);	//move with cutting feedrate
+void travel(double x, double y, double z, bool relative);	//move with rapid feedrate
+
+void bore(double diameter, double pitch, double depth, bool floor);	//bore a hole of the specified dimensions
 void drill(point *p, int len, double depth);	//drill all points in array
 void peck(point *p, int len, double depth, double pecks, double ratio);	//drill all points in array by pecking n times, the depth before a retract is controlled by ratio
+
+void profile(point *p, int len, bool relative); //goes to all points in array with cutting feedrate

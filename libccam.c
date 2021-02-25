@@ -24,18 +24,60 @@ SOFTWARE.
 
 #include "libccam.h"
 
-void move(double x, double y, double z){	//incremental move with cutting feedrate
+#include <stdio.h>
 
-}
-void travel(double x, double y, double z){	//absolute move with travel feedrate
 
-}
-void bore(double x, double y, double z, double diameter, double pitch, double depth){	//bore a hole of the specified dimensions
+//variables
+static int decimal_places = 3;
 
+void set_feed(double f){	//set feedrate for cutting
+	printf("G1 F%0.*f;\n", decimal_places, f);
 }
+
+void set_rapid(double f){	//set feedrate for travel
+	printf("G0 F%0.*f;\n", decimal_places, f);
+}
+
+void move(double x, double y, double z, bool relative){	//move with cutting feedrate
+	if(relative)printf("G91");
+	else printf("G90");
+	printf("G1 X%0.*f Y%0.*f Z%0.*f;\n", decimal_places, x, decimal_places, y, decimal_places, z);
+}
+
+void travel(double x, double y, double z, bool relative){	//move with rapid feedrate
+	if(relative)printf("G91");
+	else printf("G90");
+	printf("G0 X%0.*f Y%0.*f Z%0.*f;\n", decimal_places, x, decimal_places, y, decimal_places, z);
+}
+
+void bore(double diameter, double pitch, double depth, bool floor){	//bore a hole of the specified dimensions
+	travel(-diameter/2,0,0, true);
+
+	double remaining = depth;
+	while(remaining-pitch > 0){
+		printf("G3 Z%0.*f I%0.*f;\n", decimal_places, -pitch, decimal_places, diameter/2);
+		remaining-=pitch;
+	}
+	printf("G3 Z%0.*f I%0.*f;\n", decimal_places, -remaining, decimal_places, diameter/2);
+	if(floor)printf("G3 I%0.*f;\n", decimal_places, diameter/2);
+	travel(0,0,depth, true);
+}
+
 void drill(point *p, int len, double depth){	//drill all points in array
-
+	for(int i=0; i<len; i++){
+		travel(p[i].x, p[i].y, p[i].z, false);
+		move(0, 0, -depth, true);
+		travel(p[i].x, p[i].y, p[i].z, false);
+	}
 }
+
 void peck(point *p, int len, double depth, double pecks, double ratio){	//drill all points in array by pecking n times, the depth before a retract is controlled by ratio
 
 }
+
+void profile(point *p, int len, bool relative){ //goes to all points in array with cutting feedrate
+	for(int i=0; i<len; i++){
+		move(p[i].x, p[i].y, p[i].z, relative);
+	}
+}
+
