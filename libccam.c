@@ -102,12 +102,13 @@ void arc(point p, double deg){	//move in an arc around point p for deg degrees
 		printf("G3 ");
 	}
 	double x, y, ux, uy;
-	//deg=deg - x*90 - y*90;
+
 	deg = (deg * PI) / 180;	//convert to rads
+	
 	ux = p.x/mag(p);
 	uy = p.y/mag(p);
-	//deg += acos(-ux) + acos(-uy); //rotate the circle to match center vector 
-	deg += atan2(-uy, -ux);
+	deg += atan2(-uy, -ux); //rotate the circle to match center vector 
+
 	x = p.x + cos(deg);
 	y = p.y + sin(deg);
 
@@ -159,20 +160,85 @@ void profile(point *p, int len, bool relative){ //goes to all points in array wi
 }
 
 void face(double x, double y, double pitch, double angle){	//face the stock at current height with angle relative to positive y
-	if(angle == 90){
+	if(angle == 0){	//simple horizontal pattern
 		for(int i=0; i<=y/pitch; i++){
 			if(i%2 == 0)move(x, 0, 0, REL);
 			else move(-x, 0, 0, REL);
 			if(i<=(x/pitch-1))move(0, pitch, 0, REL);
 		}
 	}
-	else if(angle == 0){
+	else if(angle == 90){	//simple vertical pattern
 		for(int i=0; i<=x/pitch; i++){
 			if(i%2 == 0) move(0, y, 0, REL);
 			else move(0, -y, 0, REL);
 			if(i<=(y/pitch-1))move(pitch, 0, 0, REL);
 		}
-	}else if(angle>0 && angle<90){
-		printf(";Angled facing not supported yet\n");
-	}
+	}else if(angle>0 && angle<90){	//protect delicate trig functions from negative numbers :P
+		double x0, y0, x1, y1;		// 2 points needed to make a line function
+		angle = (angle * PI) / 180;	//convert to rads
+		double m = -tan(angle);		//the gradient of the line function is the tan of the angle, the '-' is there to make the angle relative to x not y
+
+		double h = pitch / sin(angle);	//horizontal pitch
+		double v = pitch / cos(angle);	//vertical pitch
+
+		//standard linear algebra to get points on the line
+		if(h>x) x0 = x;
+		else x0 = h;
+		y0 = 0;
+		x1 = 0;
+		y1 = -m*x0 + y0;
+		double c = y1;
+		
+		move(x0, 0, 0, ABS);
+
+		while(x1 < x && y0 < y){	//while inside defined area
+
+			if(y1 > y){			// if y outside area, find a new point on the perimeter
+				x1 = (y-c)/m;
+				y1 = y;
+			}
+
+			move(x1, y1, 0, ABS);
+			
+			if(y1 < y && x1 == 0){	//if on left wall
+				move(0, v, 0, REL);	//move up
+				y1 += v;
+			}
+			else if(x1+h < x){		//if on top wall and have room
+				move(h, 0, 0, REL);	//move right
+				x1 += h;
+			}else if(x1 < x){		//if no room left, move to right wall
+				move(x-x1, 0, 0, REL);
+				x1 = x;
+			}
+			
+			c = y1 - m*x1;	//find new intersection to y-axis
+			x0 = (y0-c)/m;
+
+			if(x0 > x){		//if outside of defined area
+				y0 = m*x + c;	//move to edge
+				x0 = x;			//find point on edge
+			}
+				
+			move(x0, y0, 0, ABS);
+
+			if(x0 < x){		//if within width
+				move(h, 0, 0, REL);	//move right
+				x0 += h;
+			}
+			else if(y0+v < y){	//if we have room
+				move(0, v, 0, REL);	//move up
+				y0 += v;
+			}else if(y0 < y){	//if we don't have room
+				move(0, y-y1, 0, REL);
+				y0 = y;
+			}
+			
+			//get next point
+			c = y0 - m*x0;
+			y1 = -m*x0 + y0;
+			x1 = (y1-c)/m;
+
+		}
+	}	
 }
