@@ -54,6 +54,8 @@ void make_absolute(point *p, int len);	//convert relative shape into absolute sh
 void move(double x, double y, double z, bool relative);	//move with cutting feedrate
 void travel(double x, double y, double z, bool relative);	//move with rapid feedrate
 
+void arc(point p, double deg);	//move in an arc around point p for deg degrees
+
 void bore(double diameter, double pitch, double depth, bool floor);	//bore a hole of the specified dimensions
 void drill(point *p, int len, double depth);	//drill all points in array
 void peck(point *p, int len, double depth, double pecks);	//drill all points in array by pecking n times
