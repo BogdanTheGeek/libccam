@@ -163,14 +163,14 @@ void face(double x, double y, double pitch, double angle){	//face the stock at c
 		for(int i=0; i<=y/pitch; i++){
 			if(i%2 == 0)move(x, 0, 0, REL);
 			else move(-x, 0, 0, REL);
-			move(0, pitch, 0, REL);
+			if(i<=(x/pitch-1))move(0, pitch, 0, REL);
 		}
 	}
 	else if(angle == 0){
 		for(int i=0; i<=x/pitch; i++){
 			if(i%2 == 0) move(0, y, 0, REL);
 			else move(0, -y, 0, REL);
-			move(pitch, 0, 0, REL);
+			if(i<=(y/pitch-1))move(pitch, 0, 0, REL);
 		}
 	}else if(angle>0 && angle<90){
 		printf(";Angled facing not supported yet\n");
