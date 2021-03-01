@@ -1,2 +1,2 @@
 #!/bin/sh
-gcc libccam.c main.c && ./a.out && rm a.out
+gcc libccam.c main.c && ./a.out | tee out.nc && rm a.out
