@@ -189,7 +189,7 @@ void face(double x, double y, double pitch, double angle){	//face the stock at c
 		y1 = -m*x0 + y0;
 		double c = y1;
 		
-		move(x0, 0, 0, ABS);
+		move(x0, 0, 0, REL);
 
 		while(x1 < x && y0 < y){	//while inside defined area
 
@@ -198,7 +198,7 @@ void face(double x, double y, double pitch, double angle){	//face the stock at c
 				y1 = y;
 			}
 
-			move(x1, y1, 0, ABS);
+			move(x1-x0, y1-y0, 0, REL);
 			
 			if(y1 < y && x1 == 0){	//if on left wall
 				move(0, v, 0, REL);	//move up
@@ -220,7 +220,7 @@ void face(double x, double y, double pitch, double angle){	//face the stock at c
 				x0 = x;			//find point on edge
 			}
 				
-			move(x0, y0, 0, ABS);
+			move(x0-x1, y0-y1, 0, REL);
 
 			if(x0 < x){		//if within width
 				move(h, 0, 0, REL);	//move right
