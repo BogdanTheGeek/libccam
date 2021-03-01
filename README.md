@@ -48,12 +48,14 @@ Varibles are put somewhere in the memory of a computer when they are defined lik
  - [ ] [grbl](https://github.com/grbl/grbl) support
  - [ ] Lathe support
 
-## Instal
+## Install
 Just download the repo to your computer or copy `libccam.*`, `main.c` and `generate` to your project.
 
 Make sure you have GCC installed.
 
 Run `./generate` in that folder to convert `main.c` to gcode (output saved in `out.nc`).
+
+Check out the `examples/` folder for example code and libccam.h for what the functions do, that is probably the best tutorial.
 
 ### Optional
 Install [entr](http://eradman.com/entrproject/) and run:
