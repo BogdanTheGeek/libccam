@@ -95,6 +95,7 @@ void travel(double x, double y, double z, bool relative){	//move with rapid feed
 }
 
 void arc(point p, double deg){	//move in an arc around point p for deg degrees
+	printf("G91 ");
 	if(deg<0){
 		printf("G2 ");
 		//deg = -deg;
@@ -105,12 +106,14 @@ void arc(point p, double deg){	//move in an arc around point p for deg degrees
 
 	deg = (deg * PI) / 180;	//convert to rads
 	
-	ux = p.x/mag(p);
-	uy = p.y/mag(p);
+	double p_len = mag(p);	
+
+	ux = p.x/p_len;
+	uy = p.y/p_len;
 	deg += atan2(-uy, -ux); //rotate the circle to match center vector 
 
-	x = p.x + cos(deg);
-	y = p.y + sin(deg);
+	x = p.x + cos(deg)*p_len;
+	y = p.y + sin(deg)*p_len;
 
 	printf("X%0.*f Y%0.*f Z%0.*f I%0.*f J%0.*f;\n", decimal_places, x, decimal_places, y, decimal_places, p.z*2, decimal_places, p.x, decimal_places, p.y);
 }
