@@ -158,7 +158,14 @@ void advanced_peck(point *p, int len, double depth, double dwell, double first_p
 
 void profile(point *p, int len, bool relative){ //goes to all points in array with cutting feedrate
 	for(int i=0; i<len; i++){
-		move(p[i].x, p[i].y, p[i].z, relative);
+		switch (p[i].type){
+		case LINE:
+			move(p[i].x, p[i].y, p[i].z, relative);
+			break;
+		case ARC:
+			arc(p[i], p[i].opt);
+			break;
+		}
 	}
 }
 

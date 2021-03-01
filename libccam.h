@@ -29,16 +29,23 @@ typedef enum
     true = ( ! false )
 } bool;
 
-typedef struct point{
-	double x;
-	double y;
-	double z;
-}point;
+typedef enum {
+	 LINE = 0,
+	 ARC = 1
+} point_type;
 
 enum{
 	ABS = 0, //absolute coordinates
 	REL = 1	//relative coordinates
 };
+
+typedef struct point{
+	double x;
+	double y;
+	double z;
+	point_type type;
+	double opt;		//used for arc angles
+}point;
 
 //prototypes
 void set_feed(double f);	//set feedrate for cutting
