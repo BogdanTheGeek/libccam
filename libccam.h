@@ -21,6 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+#ifndef LIBCCAM_H
+#define LIBCCAM_H
+
 
 // the funniest way to implement bool in C
 typedef enum
@@ -31,7 +34,9 @@ typedef enum
 
 typedef enum {
 	 LINE = 0,
-	 ARC = 1
+	 ARC = 1,
+	 C_BZ = 2,
+	 Q_BZ = 3
 } point_type;
 
 enum{
@@ -44,16 +49,19 @@ typedef struct point{
 	double y;
 	double z;
 	point_type type;
-	double opt;		//used for arc angles
+	void * opt;
 }point;
 
 //prototypes
+void set_curve_segments(unsigned int s);
+
 void set_feed(double f);	//set feedrate for cutting
 void set_rapid(double f);	//set feedrate for travel
 
 void pause();	//pause the program until manual resume
 void stop();	//end the program
-void wait(int millis);	//wait for specified millis
+void dwell(int millis);	//wait for specified millis
+void change_tool(int tool);
 
 void make_relative(point *p, int len);	//convert absolute shape into relative shape
 void make_absolute(point *p, int len);	//convert relative shape into absolute shape
@@ -70,3 +78,6 @@ void advanced_peck(point *p, int len, double depth, double dwell, double first_p
 
 void profile(point *p, int len, bool relative); //goes to all points in array with cutting feedrate
 void face(double x, double y, double pitch, double angle);	//face the stock at current height with angle relative to positive y
+
+
+#endif //LIBCCAM_H

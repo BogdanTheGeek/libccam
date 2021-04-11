@@ -23,14 +23,17 @@ SOFTWARE.
 */
 
 #include "libccam.h"
+#include "libccam-svg.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 #define PI 3.141592654
 
 //variables
 static int decimal_places = 3;
+static unsigned int segments = 30;
 
 //private functions
 double mag(point p){
@@ -38,6 +41,10 @@ double mag(point p){
 }
 
 //public functions
+void set_curve_segments(unsigned int s){
+	segments = s;
+}
+
 void set_feed(double f){	//set feedrate for cutting
 	printf("G1 F%0.*f;\n", decimal_places, f);
 }
@@ -55,10 +62,14 @@ void stop(){
 
 }
 
-void wait(int millis){
+void dwell(int millis){
 	printf("G4 P%d;\n", millis);
 }
 
+void change_tool(int tool){
+	printf("T %d;\n", tool);
+	printf("M6;\n");
+}
 void make_relative(point *p, int len){	//convert absolute shape into relative shape
 	
 	for(int i=len; i>0; i--){
@@ -163,7 +174,25 @@ void profile(point *p, int len, bool relative){ //goes to all points in array wi
 			move(p[i].x, p[i].y, p[i].z, relative);
 			break;
 		case ARC:
-			arc(p[i], p[i].opt);
+			arc(p[i], *(double*)p[i].opt);
+			break;
+		case Q_BZ:
+			;	//cannot have decalration first
+			point *qseg = (point *)malloc(sizeof(point)*segments);
+
+			q_seg(qseg, segments, (point *)p[i].opt);
+
+			if(relative == REL)make_relative(qseg, segments);
+			profile(qseg, segments, relative); //using recursion to convert line segments to gcode
+			free(qseg);
+			break;
+		case C_BZ:
+			;	//cannot have decalration first
+			point *cseg = (point *)malloc(sizeof(point)*segments);
+			c_seg(cseg, segments, (point *)p[i].opt);
+			if(relative == REL)make_relative(cseg, segments);
+			profile(cseg, segments, relative);	//using recursion to convert line segments to gcode
+			free(cseg);
 			break;
 		}
 	}
@@ -252,3 +281,4 @@ void face(double x, double y, double pitch, double angle){	//face the stock at c
 		}
 	}	
 }
+
