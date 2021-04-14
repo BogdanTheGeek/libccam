@@ -25,7 +25,7 @@ SOFTWARE.
 #include "libccam-svg.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 
 
 point line_bz(point a, point b, double pos){
