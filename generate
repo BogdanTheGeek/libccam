@@ -1,2 +1,0 @@
-#!/bin/sh
-gcc -lm libccam.c libccam-svg.c main.c && ./a.out | tee out.nc && rm a.out

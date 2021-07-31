@@ -49,13 +49,15 @@ Varibles are put somewhere in the memory of a computer when they are defined lik
  - [ ] Lathe support
 
 ## Install
-Just download the repo to your computer or copy `libccam.*`, `main.c` and `generate` to your project.
+Just download the repo to your computer or copy `libccam.*`, `main.c` and the `Makefile` to your project.
+
+Check out the `examples/` folder for example code and libccam.h for what the functions do, that is probably the best tutorial.
+You can also find some useful tools in the `tools`.
 
 Make sure you have GCC installed.
 
-Run `./generate` in that folder to convert `main.c` to gcode (output saved in `out.nc`).
+Run `make generate` in that folder to convert `main.c` to gcode (output saved in `out.nc`).
 
-Check out the `examples/` folder for example code and libccam.h for what the functions do, that is probably the best tutorial.
 
 ### Optional
 Install [entr](http://eradman.com/entrproject/) and run:
@@ -66,5 +68,8 @@ to have the file automatically recompiled every time main.c (or any file for tha
 
 Use `Ctrl+C` to quit.
 
-Install [CAMotics](https://camotics.org/) and open `out.nc` as a new project in order to simulate your gcode.
+Run `make show` to generate the gcode and display it with [`cginc`](https://github.com/BogdanTheGeek/cginc).
+Requires `cginc` to be installed!
+
+Or for a more advanced visualisation, install [CAMotics](https://camotics.org/) and open `out.nc` as a new project in order to simulate your gcode.
 Pressing the refresh icon will reload the gcode file.
