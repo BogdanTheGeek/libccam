@@ -1,16 +1,12 @@
 #include "libccam.h"
 
-double angle1 = 90.0;
-double angle2 = 180.0;
-double angle3 = -90.0;
-
 point contour[8] = {
 	{45,0,0},			//bottom side
-	{0,6,0, ARC, &angle1},	//bottom right corner
+	{0,6,0, ARC, 90.0f},	//bottom right corner
 	{0,15,0},			//right side
-	{-2,0,0, ARC, &angle2},	//turn around
+	{-2,0,0, ARC, 180.0f},	//turn around
 	{0,-13,0},		
-	{-4,0,0, ARC, &angle3},	//inside corner
+	{-4,0,0, ARC, -90.0f},	//inside corner
 	{-43,0,0},
 	{0,-4,0}
 };

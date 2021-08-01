@@ -175,13 +175,13 @@ void profile(point *p, int len, bool relative){ //goes to all points in array wi
 			move(p[i].x, p[i].y, p[i].z, relative);
 			break;
 		case ARC:
-			arc(p[i], *(double*)p[i].opt);
+			arc(p[i], p[i].angle);
 			break;
 		case Q_BZ:
 			;	//cannot have decalration first
 			point *qseg = (point *)malloc(sizeof(point)*segments);
 
-			q_seg(qseg, segments, (point *)p[i].opt);
+			q_seg(qseg, segments, p[i].bz_point);
 
 			if(relative == REL)make_relative(qseg, segments);
 			profile(qseg, segments, relative); //using recursion to convert line segments to gcode
@@ -190,7 +190,7 @@ void profile(point *p, int len, bool relative){ //goes to all points in array wi
 		case C_BZ:
 			;	//cannot have decalration first
 			point *cseg = (point *)malloc(sizeof(point)*segments);
-			c_seg(cseg, segments, (point *)p[i].opt);
+			c_seg(cseg, segments, p[i].bz_point);
 			if(relative == REL)make_relative(cseg, segments);
 			profile(cseg, segments, relative);	//using recursion to convert line segments to gcode
 			free(cseg);

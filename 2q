@@ -50,8 +50,8 @@ typedef struct point{
 	point_type type;
 	union {
 		double angle;
-		struct point *bz_point;
-	};
+		point bz_point;
+	}
 }point;
 
 #endif //TYPES_H

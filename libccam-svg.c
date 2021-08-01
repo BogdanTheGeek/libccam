@@ -91,7 +91,7 @@ void print_points(point * p, int len){
 		printf("X:%0.3f Y:%0.3f Z:%0.3f TYPE:%d\n", p[i].x, p[i].y, p[i].z, p[i].type);
 		if(p[i].type == C_BZ){
 			printf("--Cubic Bezier--");
-			point *cbz = (point *)p[i].opt;
+			point *cbz = p[i].bz_point;
 			print_points(cbz, 4);
 			printf("--End--\n");
 		}
@@ -194,7 +194,7 @@ int svg_to_array(char *svg_path, point *path){
 				cbz[i].x = cx;
 				cbz[i].y = cy;
 			}
-			path[path_i].opt = (void *)cbz;
+			path[path_i].bz_point = (void *)cbz;
 			path_i++;
 			break;
 		case 'C':	//ABS cubic bezier curve
@@ -226,7 +226,7 @@ int svg_to_array(char *svg_path, point *path){
 				qbz[i].x = qx;
 				qbz[i].y = qy;
 			}
-			path[path_i].opt = (void *)qbz;
+			path[path_i].bz_point = (void *)qbz;
 			path_i++;
 
 			break;
