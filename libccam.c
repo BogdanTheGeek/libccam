@@ -240,9 +240,16 @@ void face(double x, double y, double pitch, double angle){	//face the stock at c
 
 			move(x1-x0, y1-y0, 0, REL);
 			
-			if(y1 < y && x1 == 0){	//if on left wall
+			if(y1+v < y && x1 == 0){	//if on left wall
 				move(0, v, 0, REL);	//move up
 				y1 += v;
+			}
+			else if(y1<y && x1 == 0){
+				move(0, y-y1, 0, REL);	//move up
+				y1 = y;
+				double rh = sqrt(pitch*pitch + (y-y1)*(y-y1));  //ramining move
+				move(rh, 0, 0, REL);	//move right
+				x1 += rh;
 			}
 			else if(x1+h < x){		//if on top wall and have room
 				move(h, 0, 0, REL);	//move right
@@ -262,9 +269,16 @@ void face(double x, double y, double pitch, double angle){	//face the stock at c
 				
 			move(x0-x1, y0-y1, 0, REL);
 
-			if(x0 < x){		//if within width
+			if(x0+h < x){		//if within width
 				move(h, 0, 0, REL);	//move right
 				x0 += h;
+			}
+			else if(x0 < x){
+				move(0, x-x0, 0, REL);	//move up
+				x0 = x;
+				double rv = sqrt(pitch*pitch + (x-x0)*(x-x0));  //ramining move
+				move(0, rv, 0, REL);	//move right
+				y0 += rv;
 			}
 			else if(y0+v < y){	//if we have room
 				move(0, v, 0, REL);	//move up

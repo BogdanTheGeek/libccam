@@ -1,6 +1,7 @@
 main
 **.swp
 **.o
+**.bin
 **/tags
 **.gcode
 **.nc
