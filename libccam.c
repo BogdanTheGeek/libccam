@@ -22,14 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "libccam.h"
+#include "types.h"
 #include "libccam-svg.h"
+#include "libccam.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-#define PI 3.141592654
+#define PI M_PI
 
 //variables
 static int decimal_places = 3;

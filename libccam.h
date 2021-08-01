@@ -24,33 +24,8 @@ SOFTWARE.
 #ifndef LIBCCAM_H
 #define LIBCCAM_H
 
+#include "types.h"
 
-// the funniest way to implement bool in C
-typedef enum
-{
-    false = ( 1 == 0 ),
-    true = ( ! false )
-} bool;
-
-typedef enum {
-	 LINE = 0,
-	 ARC = 1,
-	 C_BZ = 2,
-	 Q_BZ = 3
-} point_type;
-
-enum{
-	ABS = 0, //absolute coordinates
-	REL = 1	//relative coordinates
-};
-
-typedef struct point{
-	double x;
-	double y;
-	double z;
-	point_type type;
-	void * opt;
-}point;
 
 //prototypes
 void set_curve_segments(unsigned int s);

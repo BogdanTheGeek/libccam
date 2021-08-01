@@ -21,14 +21,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#ifndef LIBCCAM_SVG_H
-#define LIBCCAM_SVG_H
-#include "types.h"
+#ifndef TYPES_H
+#define TYPES_H
 
+// the funniest way to implement bool in C
+typedef enum
+{
+    false = ( 1 == 0 ),
+    true = ( ! false )
+} bool;
 
-void q_seg(point *seg, int len, point *p_abc);	//convert quad bezier points to array of segments
-void c_seg(point *seg, int len, point *p_abcd);	//convert cube bezier points to array of segments
+typedef enum {
+	 LINE = 0,
+	 ARC = 1,
+	 C_BZ = 2,
+	 Q_BZ = 4
+} point_type;
 
-int svg_to_array(char *svg_path, point *path);
+enum{
+	ABS = 0, //absolute coordinates
+	REL = 1	//relative coordinates
+};
 
-#endif //LIBCCAM_SVG_H
+typedef struct point{
+	double x;
+	double y;
+	double z;
+	point_type type;
+	void * opt;
+}point;
+
+#endif //TYPES_H

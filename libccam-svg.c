@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include "libccam-svg.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
