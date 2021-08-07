@@ -49,7 +49,7 @@ Varibles are put somewhere in the memory of a computer when they are defined lik
  - [ ] Lathe support
 
 ## Install
-Just download the repo to your computer or copy `libccam.*`, `main.c` and the `Makefile` to your project.
+Just download the repo to your project folder and use the `examples/Makefile` inside of your project folder.
 
 Check out the `examples/` folder for example code and libccam.h for what the functions do, that is probably the best tutorial.
 You can also find some useful tools in the `tools`.
