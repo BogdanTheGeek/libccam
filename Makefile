@@ -4,6 +4,13 @@ CFLAGS=-I$(IDIR) -lm
 ALLHEADERS:=$(wildcard *.h)
 SVGHEADERS=libccam-svg.h types.h
 
+UNAME := $(shell uname)
+ifeq ($(UNAME), Darwin)
+	COLOUR=
+else
+	COLOUR=--color
+endif
+
 # define standard colors
 ifneq (,$(findstring 256color,${TERM}))
 	FAIL    := $(shell tput -Txterm setaf 1)
@@ -48,7 +55,7 @@ RUN_TESTS:=$(patsubst %.c,%,$(wildcard examples/*.c))
 .PHONY: $(RUN_TESTS)
 $(RUN_TESTS): $(TESTS)
 	@./$@.bin > $@.temp.nc
-	@diff --color $@.temp.nc $@.nc && echo "$(SUCCESS)Test $@ Succesful$(RESET)" || (echo "$(FAIL)Test $@ FAILED$(RESET)" && echo "")
+	@diff $(COLOUR) $@.temp.nc $@.nc && echo "$(SUCCESS)Test $@ Succesful$(RESET)" || (echo "$(FAIL)Test $@ FAILED$(RESET)" && echo "")
 
 .PHONY: test
 test: $(RUN_TESTS)
