@@ -29,6 +29,10 @@ main: main.c libccam.o libccam-svg.o
 	@echo "$(WARNING)Building $@ $(RESET)"
 	@$(CC) -o main $^ $(CFLAGS)
 
+.PHONY: libccam
+libccam: libccam.o libccam-svg.o
+	@echo "$(WARNING)Building $@ $(RESET)"
+
 libccam-svg.o: libccam-svg.c $(SVGHEADERS)
 	@echo "$(WARNING)Building $@ $(RESET)"
 	@$(CC) -c -o $@ $< $(CFLAGS)
