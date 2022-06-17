@@ -54,17 +54,17 @@ int main(int argc, char *argv[]){
 
 	FILE *drill_file = fopen(drill_file_name, "r");
 	if(NULL == drill_file){
-		printf("Could not open file %s\n", drill_file);
+		printf("Could not open file %s\n", drill_file_name);
 		exit(-1);
 	}
 
 	char *array_file_name = (char *)malloc(strlen(drill_file_name));
 	//change filetype
-	sprintf(array_file_name, "%.*sh",strlen(drill_file_name) - 3, drill_file_name);
+	sprintf(array_file_name, "%.*sh", (int)strlen(drill_file_name) - 3, drill_file_name);
 	FILE *array_file = fopen(array_file_name, "w");
 	free(array_file_name);
 	if(NULL == array_file){
-		printf("Could not open file %s\n", array_file);
+		printf("Could not open file %s\n", array_file_name);
 		exit(-1);
 	}
 
