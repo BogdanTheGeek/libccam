@@ -27,12 +27,12 @@ SOFTWARE.
 
 #include "libccam.h"
 
-const char header[] = "//This file was automatically generated from a .drl file\n"
-											 "//Please verify results with a simulator before runnig on a machine\n"
-											 "\n"
-											 "//Include this file or copy arrays into you project\n";
+const char header[] = "// This file was automatically generated from a .drl file\n"
+                      "// Please verify results with a simulator before runnig on a machine\n"
+                      "\n"
+                      "// Include this file or copy arrays into you project\n";
  
-const char footer[] = "//END OF FILE\n";
+const char footer[] = "// END OF FILE\n";
 
 int main(int argc, char *argv[]){
 
@@ -90,9 +90,11 @@ int main(int argc, char *argv[]){
 				if(true == found_first_tool)
 					//close previous tool
 					fprintf(array_file, "};\n\n");
-				else if('C' == line[2])
-					//skip parameter
+				else if('C' == line[2]){
+               //extract tool size
+               fprintf(array_file, "// Tool Number %c is %.*s mm\n", line[1], (int)strlen(line) - 4, &line[3]);
 					break;
+            }
 				else
 					found_first_tool = true;
 
